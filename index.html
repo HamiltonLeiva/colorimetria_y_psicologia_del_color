@@ -4,69 +4,138 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Colorimetría y Psicología del Color</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <header class="app-header">
       <div class="container">
-        <h1>Laboratorio de Colorimetría</h1>
+        <h1>Trabajo Práctico: Laboratorio de Colorimetría</h1>
         <p>Aprende síntesis sustractiva, armonías y psicología del color</p>
       </div>
     </header>
 
     <main class="app-main container">
-      <!-- Círculo Cromático -->
-      <section id="color-wheel-display" aria-labelledby="wheel-heading">
-        <header>
-          <h2 id="wheel-heading">Círculo Cromático</h2>
-          <p>Explora la teoría básica y relaciones armónicas</p>
-        </header>
-        <div class="wheel-container" id="wheel-container">
-          <!-- Renderizado Reactivo -->
-        </div>
-      </section>
+      <!-- Panel Izquierdo: Mezclador -->
+      <div class="panel-left">
+        <section id="mixing-console" aria-labelledby="mixer-heading">
+          <header>
+            <h2 id="mixer-heading">Mesa de Mezcla</h2>
+            <p>Combina primarios para descubrir secundarios y terciarios</p>
+          </header>
+          
+          <div class="mixer-interface" id="mixer-interface">
+            <div class="slot-wrapper">
+              <div class="color-slot active-slot" id="color-a" data-color="none">
+                <span class="lbl-color">Color A</span>
+              </div>
+              <input type="text" id="hex-input-a" class="hex-input" placeholder="HEX / RGB" maxlength="25" autocomplete="off">
+            </div>
+            
+            <div class="mix-ratio-control">
+              <span class="ratio-label" id="ratio-label">50% / 50%</span>
+              <input type="range" id="mix-ratio" class="custom-slider" min="0" max="100" value="50">
+            </div>
+            
+            <div class="slot-wrapper">
+              <div class="color-slot" id="color-b" data-color="none">
+                <span class="lbl-color">Color B</span>
+              </div>
+              <input type="text" id="hex-input-b" class="hex-input" placeholder="HEX / RGB" maxlength="25" autocomplete="off">
+            </div>
+            
+            <div class="mix-ratio-control hidden-slot" id="ratio-control-c">
+              <span class="ratio-label" id="ratio-label-c">Base 50% / C 50%</span>
+              <input type="range" id="mix-ratio-c" class="custom-slider" min="0" max="100" value="50">
+            </div>
+            
+            <div class="slot-wrapper hidden-slot" id="slot-c-wrapper">
+              <div class="color-slot" id="color-c" data-color="none">
+                <span class="lbl-color">Color C</span>
+              </div>
+              <input type="text" id="hex-input-c" class="hex-input" placeholder="HEX / RGB" maxlength="25" autocomplete="off">
+            </div>
+          </div>
+          
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <button id="btn-toggle-3color" class="btn-toggle-mode">+ Módulo 3 Colores</button>
+          </div>
+          
+          <div class="controls">
+            <h3>Selecciona Color:</h3>
+            <div class="palette-selectors" id="primary-palette">
+              <!-- Botones a través de JS -->
+            </div>
+            <button id="btn-reset" class="btn-primary">Reiniciar Mezcla</button>
+          </div>
+        </section>
 
-      <!-- Consola de Mezcla -->
-      <section id="mixing-console" aria-labelledby="mixer-heading">
-        <header>
-          <h2 id="mixer-heading">Mesa de Mezcla</h2>
-          <p>Combina primarios para descubrir secundarios y terciarios</p>
-        </header>
-        <div class="mixer-interface">
-          <div class="color-slot" id="color-a" data-color="none">
-            <span class="lbl-color">Color A</span>
+        <!-- Previsualización en Contexto -->
+        <section class="context-preview-section" id="context-preview" style="display: none;">
+          <header>
+            <h2>Aplicación Práctica</h2>
+            <p>Usos sugeridos para este pigmento en distintos entornos.</p>
+          </header>
+          <div class="context-grid">
+            <div class="preview-ui">
+              <h4>Diseño de Interfaz</h4>
+              <button class="mock-btn" id="mock-btn">Botón de Acción</button>
+              <div class="mock-card" id="mock-card">
+                 <div class="mock-badge" id="mock-badge">Nuevo</div>
+                 <p>Contenedor Muestra</p>
+              </div>
+            </div>
+            <div class="preview-3d">
+              <h4>Material y Volumen</h4>
+              <div class="mock-sphere" id="mock-sphere"></div>
+            </div>
           </div>
-          <span class="operator">+</span>
-          <div class="color-slot" id="color-b" data-color="none">
-            <span class="lbl-color">Color B</span>
-          </div>
-          <span class="operator">=</span>
-          <div class="color-slot result-slot" id="color-result">
-            <span class="lbl-color">Resultado</span>
-          </div>
-        </div>
-        <div class="controls">
-          <h3>Selecciona para Color A o B:</h3>
-          <div class="palette-selectors" id="primary-palette">
-            <!-- Botones a través de JS -->
-          </div>
-          <button id="btn-reset" class="btn-primary">Reiniciar Mezcla</button>
-        </div>
-      </section>
+        </section>
+      </div>
 
-      <!-- Panel de Psicología -->
-      <section id="color-psychology" aria-labelledby="psychology-heading">
-        <header>
-          <h2 id="psychology-heading">Análisis del Color</h2>
-        </header>
-        <div class="psychology-panel" id="psychology-panel">
-          <p class="empty-state">Mezcla o selecciona un color para ver su análisis teórico...</p>
-        </div>
-      </section>
+      <!-- Panel Derecho: Análisis Profesional y Armonías -->
+      <div class="panel-right">
+        <!-- Sección Unificada de Análisis -->
+        <section class="analysis-section" id="professional-analysis">
+            <header>
+              <h2>Análisis del Pigmento</h2>
+              <p>Resultado físico, propiedades psicológicas y armonías teóricas.</p>
+            </header>
+            
+            <div class="analysis-main-grid">
+              <div class="result-display">
+                <div class="color-slot result-slot" id="color-result" data-color="none">
+                  <span class="lbl-color">Vacío</span>
+                </div>
+                <div class="lightness-control">
+                  <label for="lightness-slider" id="lightness-label">Luminosidad: --%</label>
+                  <input type="range" id="lightness-slider" class="custom-slider" min="0" max="100" value="50" disabled>
+                </div>
+              </div>
+
+              <div class="psychology-panel" id="psychology-panel">
+                <p class="empty-state">Inicia una mezcla para ver el análisis profesional corporativo...</p>
+              </div>
+            </div>
+        </section>
+
+        <!-- Círculo Cromático y Armonías -->
+        <section id="color-wheel-display" aria-labelledby="wheel-heading">
+          <header>
+            <h2 id="wheel-heading">Visualizador de Armonías</h2>
+            <p>Representación geométrica en el círculo cromático.</p>
+          </header>
+          <div class="wheel-container" id="wheel-container">
+            <!-- Renderizado Reactivo -->
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer class="app-footer">
       <div class="container">
-        <p>&copy; 2026 Hamilton Leiva Group - Arquitectura Modular y Diseño Responsivo Premium</p>
+        <p>&copy; Realizado por Hamilton Leiva - Arquitectura Estándar TI & UX Design</p>
       </div>
     </footer>
     <script type="module" src="/src/main.js"></script>
