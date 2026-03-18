@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colorimetría y Psicología del Color</title>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="container">
+        <h1>Laboratorio de Colorimetría</h1>
+        <p>Aprende síntesis sustractiva, armonías y psicología del color</p>
+      </div>
+    </header>
+
+    <main class="app-main container">
+      <!-- Círculo Cromático -->
+      <section id="color-wheel-display" aria-labelledby="wheel-heading">
+        <header>
+          <h2 id="wheel-heading">Círculo Cromático</h2>
+          <p>Explora la teoría básica y relaciones armónicas</p>
+        </header>
+        <div class="wheel-container" id="wheel-container">
+          <!-- Renderizado Reactivo -->
+        </div>
+      </section>
+
+      <!-- Consola de Mezcla -->
+      <section id="mixing-console" aria-labelledby="mixer-heading">
+        <header>
+          <h2 id="mixer-heading">Mesa de Mezcla</h2>
+          <p>Combina primarios para descubrir secundarios y terciarios</p>
+        </header>
+        <div class="mixer-interface">
+          <div class="color-slot" id="color-a" data-color="none">
+            <span class="lbl-color">Color A</span>
+          </div>
+          <span class="operator">+</span>
+          <div class="color-slot" id="color-b" data-color="none">
+            <span class="lbl-color">Color B</span>
+          </div>
+          <span class="operator">=</span>
+          <div class="color-slot result-slot" id="color-result">
+            <span class="lbl-color">Resultado</span>
+          </div>
+        </div>
+        <div class="controls">
+          <h3>Selecciona para Color A o B:</h3>
+          <div class="palette-selectors" id="primary-palette">
+            <!-- Botones a través de JS -->
+          </div>
+          <button id="btn-reset" class="btn-primary">Reiniciar Mezcla</button>
+        </div>
+      </section>
+
+      <!-- Panel de Psicología -->
+      <section id="color-psychology" aria-labelledby="psychology-heading">
+        <header>
+          <h2 id="psychology-heading">Análisis del Color</h2>
+        </header>
+        <div class="psychology-panel" id="psychology-panel">
+          <p class="empty-state">Mezcla o selecciona un color para ver su análisis teórico...</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <div class="container">
+        <p>&copy; 2026 Hamilton Leiva Group - Arquitectura Modular y Diseño Responsivo Premium</p>
+      </div>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
