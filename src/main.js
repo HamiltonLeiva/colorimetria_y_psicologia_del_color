@@ -1,4 +1,3 @@
-import './style.css'
 import { WheelComponent } from './components/WheelComponent.js';
 import { MixerComponent } from './components/MixerComponent.js';
 
