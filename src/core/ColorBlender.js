@@ -1,4 +1,4 @@
-import * as colorUtils from '../utils/colorUtils.js';
+import * as colorUtils from '../utils/colorutils.js';
 
 /**
  * @module colorBlender

@@ -1,5 +1,5 @@
-import * as colorService from '../services/colorService.js';
-import * as colorUtils from '../utils/colorUtils.js';
+import * as colorService from '../services/colorservice.js';
+import * as colorUtils from '../utils/colorutils.js';
 
 /**
  * @class MixerComponent

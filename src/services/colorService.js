@@ -1,6 +1,6 @@
-import * as colorUtils from '../utils/colorUtils.js';
-import * as colorTheory from '../core/colorTheory.js';
-import { ColorBlender } from '../core/colorBlender.js';
+import * as colorUtils from '../utils/colorutils.js';
+import * as colorTheory from '../core/colortheory.js';
+import { ColorBlender } from '../core/colorblender.js';
 
 /**
  * @module colorService

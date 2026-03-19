@@ -1,5 +1,5 @@
-import { WheelComponent } from './components/WheelComponent.js';
-import { MixerComponent } from './components/MixerComponent.js';
+import { WheelComponent } from './components/wheelcomponent.js';
+import { MixerComponent } from './components/mixercomponent.js';
 
 /**
  * Punto de entrada de la aplicación.
