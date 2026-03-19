@@ -56,9 +56,21 @@ export class MixerComponent {
   }
 
   init() {
+    // Validación de integridad del DOM para este componente
+    const criticalNodes = ['palette', 'slotA', 'slotB', 'btnReset'];
+    const missing = criticalNodes.filter(key => !this.nodes[key]);
+    
+    if (missing.length > 0) {
+        console.error(`MixerComponent: Faltan nodos críticos en el DOM: ${missing.join(', ')}`);
+        return;
+    }
+
     this.renderPalette();
     this.setupEventListeners();
     this.setActiveSlot(this.nodes.slotA);
+    
+    // Estado inicial: Sugerir interacción
+    console.log("MixerComponent listo. Esperando interacción del usuario.");
   }
 
   setupEventListeners() {

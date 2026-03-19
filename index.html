@@ -26,6 +26,13 @@
             <p>Combina primarios para descubrir secundarios y terciarios</p>
           </header>
           
+          <div class="controls intro-palette">
+            <h3>Selecciona Color para empezar:</h3>
+            <div class="palette-selectors" id="primary-palette">
+              <!-- Botones a través de JS -->
+            </div>
+          </div>
+
           <div class="mixer-interface" id="mixer-interface">
             <div class="slot-wrapper">
               <div class="color-slot active-slot" id="color-a" data-color="none">
@@ -61,14 +68,7 @@
           
           <div style="text-align: center; margin-bottom: 2rem;">
             <button id="btn-toggle-3color" class="btn-toggle-mode">+ Módulo 3 Colores</button>
-          </div>
-          
-          <div class="controls">
-            <h3>Selecciona Color:</h3>
-            <div class="palette-selectors" id="primary-palette">
-              <!-- Botones a través de JS -->
-            </div>
-            <button id="btn-reset" class="btn-primary">Reiniciar Mezcla</button>
+            <button id="btn-reset" class="btn-primary" style="margin-left: 1rem;">Reiniciar</button>
           </div>
         </section>
 
