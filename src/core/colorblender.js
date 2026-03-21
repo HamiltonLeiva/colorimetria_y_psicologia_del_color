@@ -12,54 +12,53 @@ export class ColorBlender {
    * @param {number} ratioA - Proporción del primer color (0 a 1).
    * @returns {string} Resultado en Hex.
    */
+  /**
+   * Mezcla tres o más colores usando pesos individuales (Modelo Sustractivo CMYK).
+   * CMYK es el estándar para pigmentos físicos (cian, magenta, amarillo, negro).
+   * @param {string[]} hexColors - Array de colores Hex.
+   * @param {number[]} weights - Array de pesos (0-100).
+   * @returns {string} Resultado en Hex.
+   */
+  static mixMultiplePigments(hexColors, weights) {
+    if (!hexColors || hexColors.length === 0) return '#000000';
+    
+    // Si solo hay un color, devolverlo
+    if (hexColors.length === 1) return hexColors[0];
+    
+    let totalWeight = weights.reduce((a, b) => a + b, 0);
+    if (totalWeight === 0) return hexColors[0];
+
+    let sumC = 0, sumM = 0, sumY = 0, sumK = 0;
+
+    hexColors.forEach((hex, i) => {
+      const rgb = colorUtils.hexToRgb(hex);
+      const w = weights[i] / totalWeight;
+      
+      // Convert RGB to CMYK
+      const r = rgb.r / 255;
+      const g = rgb.g / 255;
+      const b = rgb.b / 255;
+      
+      const k = 1 - Math.max(r, g, b);
+      const c = (k === 1) ? 0 : (1 - r - k) / (1 - k);
+      const m = (k === 1) ? 0 : (1 - g - k) / (1 - k);
+      const y = (k === 1) ? 0 : (1 - b - k) / (1 - k);
+      
+      sumC += c * w;
+      sumM += m * w;
+      sumY += y * w;
+      sumK += k * w;
+    });
+
+    // Convert CMYK back to RGB
+    const r = 255 * (1 - sumC) * (1 - sumK);
+    const g = 255 * (1 - sumM) * (1 - sumK);
+    const b = 255 * (1 - sumY) * (1 - sumK);
+
+    return colorUtils.rgbToHex(r, g, b);
+  }
+
   static mixPigments(hex1, hex2, ratioA = 0.5) {
-    if (hex1 === hex2) return hex1;
-    if (hex1 === 'none' || !hex1) return hex2;
-    if (hex2 === 'none' || !hex2) return hex1;
-
-    const c1 = colorUtils.hexToRgb(hex1);
-    const c2 = colorUtils.hexToRgb(hex2);
-    
-    const hsl1 = colorUtils.rgbToHsl(c1.r, c1.g, c1.b);
-    const hsl2 = colorUtils.rgbToHsl(c2.r, c2.g, c2.b);
-
-    const ratioB = 1 - ratioA;
-
-    let h1 = hsl1.h;
-    let h2 = hsl2.h;
-    
-    // Shortest Path en el círculo cromático
-    if (Math.abs(h1 - h2) > 180) {
-        if (h1 < h2) h1 += 360;
-        else h2 += 360;
-    }
-
-    let mixedH = (h1 * ratioA + h2 * ratioB) % 360;
-    if (mixedH < 0) mixedH += 360;
-
-    // Lógica RYB (Red-Yellow-Blue) para mezclas artísticas
-    const isBlue1 = hsl1.h > 200 && hsl1.h < 260;
-    const isYellow1 = hsl1.h > 40 && hsl1.h < 80;
-    const isBlue2 = hsl2.h > 200 && hsl2.h < 260;
-    const isYellow2 = hsl2.h > 40 && hsl2.h < 80;
-
-    const isRed1 = hsl1.h < 20 || hsl1.h > 340;
-    const isRed2 = hsl2.h < 20 || hsl2.h > 340;
-
-    let mixedL = (hsl1.l * ratioA + hsl2.l * ratioB);
-
-    // Ajustes de saturación y brillo para simular pérdida de luz en mezcla física
-    if ((isBlue1 && isYellow2) || (isYellow1 && isBlue2)) {
-        mixedH = 120; // Verde
-        mixedL *= 0.90;
-    } else if ((isRed1 && isYellow2) || (isYellow1 && isRed2)) {
-        mixedH = 35; // Naranja
-    } else {
-        mixedL *= 0.90;
-    }
-
-    const mixedS = (hsl1.s * ratioA + hsl2.s * ratioB);
-
-    return colorUtils.hslToHex(mixedH, mixedS, mixedL);
+    return this.mixMultiplePigments([hex1, hex2], [ratioA * 100, (1 - ratioA) * 100]);
   }
 }

@@ -18,14 +18,9 @@ export function processMix(colors, ratios) {
 
     let resultHex = colors[0];
     
-    // Mezcla secuencial (soporta 2 o 3 colores)
+    // Mezcla multichasis (soporta N colores con N pesos)
     if (colors.length >= 2) {
-        resultHex = ColorBlender.mixPigments(colors[0], colors[1], ratios[0]);
-        if (colors.length === 3) {
-            // Nota: Aquí se asume una proporción base vs el tercer color
-            const ratioBase = ratios[1] || 0.5;
-            resultHex = ColorBlender.mixPigments(resultHex, colors[2], ratioBase);
-        }
+        resultHex = ColorBlender.mixMultiplePigments(colors, ratios);
     }
 
     const rgb = colorUtils.hexToRgb(resultHex);

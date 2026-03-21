@@ -34,35 +34,48 @@
           </div>
 
           <div class="mixer-interface" id="mixer-interface">
-            <div class="slot-wrapper">
-              <div class="color-slot active-slot" id="color-a" data-color="none">
-                <span class="lbl-color">Color A</span>
+            <!-- Fila Color A -->
+            <div class="mixer-row" id="row-a">
+              <div class="slot-wrapper">
+                <div class="color-slot" id="color-a" data-color="none">
+                  <span class="lbl-color">Color A</span>
+                </div>
+                <input type="text" id="hex-input-a" class="hex-input" placeholder="HEX / RGB" maxlength="25" autocomplete="off">
               </div>
-              <input type="text" id="hex-input-a" class="hex-input" placeholder="HEX / RGB" maxlength="25" autocomplete="off">
-            </div>
-            
-            <div class="mix-ratio-control">
-              <span class="ratio-label" id="ratio-label">50% / 50%</span>
-              <input type="range" id="mix-ratio" class="custom-slider" min="0" max="100" value="50">
-            </div>
-            
-            <div class="slot-wrapper">
-              <div class="color-slot" id="color-b" data-color="none">
-                <span class="lbl-color">Color B</span>
+              <div class="mix-ratio-control" id="ratio-control-1">
+                <span class="ratio-label" id="ratio-label-1">50%</span>
+                <input type="range" id="mix-ratio-1" class="custom-slider" min="0" max="100" value="50">
               </div>
-              <input type="text" id="hex-input-b" class="hex-input" placeholder="HEX / RGB" maxlength="25" autocomplete="off">
             </div>
-            
-            <div class="mix-ratio-control hidden-slot" id="ratio-control-c">
-              <span class="ratio-label" id="ratio-label-c">Base 50% / C 50%</span>
-              <input type="range" id="mix-ratio-c" class="custom-slider" min="0" max="100" value="50">
-            </div>
-            
-            <div class="slot-wrapper hidden-slot" id="slot-c-wrapper">
-              <div class="color-slot" id="color-c" data-color="none">
-                <span class="lbl-color">Color C</span>
+
+            <!-- Fila Color B -->
+            <div class="mixer-row" id="row-b">
+              <div class="slot-wrapper">
+                <div class="color-slot" id="color-b" data-color="none">
+                  <span class="lbl-color">Color B</span>
+                </div>
+                <input type="text" id="hex-input-b" class="hex-input" placeholder="HEX / RGB" maxlength="25" autocomplete="off">
               </div>
-              <input type="text" id="hex-input-c" class="hex-input" placeholder="HEX / RGB" maxlength="25" autocomplete="off">
+              
+              <div class="mix-ratio-control" id="ratio-control-2">
+                <span class="ratio-label" id="ratio-label-2">50%</span>
+                <input type="range" id="mix-ratio-2" class="custom-slider" min="0" max="100" value="50">
+              </div>
+            </div>
+
+            <!-- Fila Color C -->
+            <div class="mixer-row hidden-slot" id="row-c">
+              <div class="slot-wrapper">
+                <div class="color-slot" id="color-c" data-color="none">
+                  <span class="lbl-color">Color C</span>
+                </div>
+                <input type="text" id="hex-input-c" class="hex-input" placeholder="HEX / RGB" maxlength="25" autocomplete="off">
+              </div>
+
+              <div class="mix-ratio-control" id="ratio-control-3">
+                <span class="ratio-label" id="ratio-label-3">50%</span>
+                <input type="range" id="mix-ratio-3" class="custom-slider" min="0" max="100" value="50">
+              </div>
             </div>
           </div>
           
@@ -136,7 +149,7 @@
 
     <footer class="app-footer">
       <div class="container">
-        <p>&copy; Realizado por Hamilton Leiva - Arquitectura Estándar TI & UX Design</p>
+        <p>&copy; Todos los derechos reservados - Hamilton Leiva &reg; 2026</p>
       </div>
     </footer>
     <script type="module" src="src/main.js"></script>

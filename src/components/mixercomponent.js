@@ -29,16 +29,18 @@ export class MixerComponent {
         psychology: document.getElementById('psychology-panel'),
         btnReset: document.getElementById('btn-reset'),
         btnToggle3Color: document.getElementById('btn-toggle-3color'),
-        mixRatio: document.getElementById('mix-ratio'),
-        ratioLabel: document.getElementById('ratio-label'),
-        mixRatioC: document.getElementById('mix-ratio-c'),
-        ratioLabelC: document.getElementById('ratio-label-c'),
+        mixRatio1: document.getElementById('mix-ratio-1'),
+        ratioLabel1: document.getElementById('ratio-label-1'),
+        mixRatio2: document.getElementById('mix-ratio-2'),
+        ratioLabel2: document.getElementById('ratio-label-2'),
+        mixRatio3: document.getElementById('mix-ratio-3'),
+        ratioLabel3: document.getElementById('ratio-label-3'),
         lightness: document.getElementById('lightness-slider'),
         lightnessLabel: document.getElementById('lightness-label'),
         hexInputA: document.getElementById('hex-input-a'),
         hexInputB: document.getElementById('hex-input-b'),
         hexInputC: document.getElementById('hex-input-c'),
-        slotCWrapper: document.getElementById('slot-c-wrapper'),
+        rowC: document.getElementById('row-c'),
         contextPreview: document.getElementById('context-preview'),
         mockBtn: document.getElementById('mock-btn'),
         mockCard: document.getElementById('mock-card'),
@@ -81,8 +83,9 @@ export class MixerComponent {
     });
     
     this.nodes.btnReset.addEventListener('click', () => this.reset());
-    this.nodes.mixRatio.addEventListener('input', () => this.handleUIUpdate());
-    this.nodes.mixRatioC.addEventListener('input', () => this.handleUIUpdate());
+    this.nodes.mixRatio1.addEventListener('input', () => this.handleUIUpdate());
+    this.nodes.mixRatio2.addEventListener('input', () => this.handleUIUpdate());
+    this.nodes.mixRatio3.addEventListener('input', () => this.handleUIUpdate());
     this.nodes.lightness.addEventListener('input', () => this.handleLightnessChange());
     this.nodes.btnToggle3Color.addEventListener('click', () => this.toggle3ColorMode());
     
@@ -116,8 +119,7 @@ export class MixerComponent {
     this.state.isThreeColorMode = !this.state.isThreeColorMode;
     const is3 = this.state.isThreeColorMode;
     
-    this.nodes.slotCWrapper.classList.toggle('hidden-slot', !is3);
-    this.nodes.mixRatioC.parentElement.classList.toggle('hidden-slot', !is3);
+    this.nodes.rowC.classList.toggle('hidden-slot', !is3);
     this.nodes.btnToggle3Color.innerText = is3 ? '- Desactivar Módulo 3 Colores' : '+ Módulo 3 Colores';
     
     if (!is3) {
@@ -127,15 +129,27 @@ export class MixerComponent {
     } else {
         this.setActiveSlot(this.nodes.slotC);
     }
-    this.mixAndRender();
+    this.handleUIUpdate();
   }
 
   handleUIUpdate() {
-    const rA = parseInt(this.nodes.mixRatio.value, 10);
-    this.nodes.ratioLabel.innerText = `${rA}% / ${100 - rA}%`;
+    const wA = parseInt(this.nodes.mixRatio1.value, 10);
+    const wB = parseInt(this.nodes.mixRatio2.value, 10);
+    const wC = this.state.isThreeColorMode ? parseInt(this.nodes.mixRatio3.value, 10) : 0;
+
+    const total = wA + wB + wC;
     
-    const rC = parseInt(this.nodes.mixRatioC.value, 10);
-    this.nodes.ratioLabelC.innerText = `Base ${rC}% / C ${100 - rC}%`;
+    if (total > 0) {
+        this.nodes.ratioLabel1.innerText = `${Math.round((wA / total) * 100)}%`;
+        this.nodes.ratioLabel2.innerText = `${Math.round((wB / total) * 100)}%`;
+        if (this.state.isThreeColorMode) {
+            this.nodes.ratioLabel3.innerText = `${Math.round((wC / total) * 100)}%`;
+        }
+    } else {
+        this.nodes.ratioLabel1.innerText = '0%';
+        this.nodes.ratioLabel2.innerText = '0%';
+        this.nodes.ratioLabel3.innerText = '0%';
+    }
 
     this.mixAndRender();
   }
@@ -200,16 +214,24 @@ export class MixerComponent {
     const cB = this.nodes.slotB.dataset.color;
     const cC = this.nodes.slotC.dataset.color;
 
-    if (cA !== 'none' && cB !== 'none') {
-        const colors = [cA, cB];
-        const ratios = [parseInt(this.nodes.mixRatio.value, 10) / 100];
-        
-        if (this.state.isThreeColorMode && cC !== 'none') {
-            colors.push(cC);
-            ratios.push(parseInt(this.nodes.mixRatioC.value, 10) / 100);
-        }
+    const activeColors = [];
+    const weights = [];
 
-        const data = colorService.processMix(colors, ratios);
+    if (cA !== 'none') {
+        activeColors.push(cA);
+        weights.push(parseInt(this.nodes.mixRatio1.value, 10));
+    }
+    if (cB !== 'none') {
+        activeColors.push(cB);
+        weights.push(parseInt(this.nodes.mixRatio2.value, 10));
+    }
+    if (this.state.isThreeColorMode && cC !== 'none') {
+        activeColors.push(cC);
+        weights.push(parseInt(this.nodes.mixRatio3.value, 10));
+    }
+
+    if (activeColors.length >= 1) {
+        const data = colorService.processMix(activeColors, weights);
         if (data) {
             this.state.rawMixHex = data.hex;
             this.lastMixData = data; // Store for lightness adjustments
@@ -313,10 +335,12 @@ export class MixerComponent {
     this.nodes.psychology.innerHTML = '<p class="empty-state">Inicia una mezcla para ver el análisis profesional...</p>';
     if (this.wheelComponent && this.wheelComponent.container) this.wheelComponent.container.innerHTML = '';
     
-    this.nodes.mixRatio.value = 50;
-    this.nodes.ratioLabel.innerText = '50% / 50%';
-    this.nodes.mixRatioC.value = 50;
-    this.nodes.ratioLabelC.innerText = 'Base 50% / C 50%';
+    this.nodes.mixRatio1.value = 50;
+    this.nodes.ratioLabel1.innerText = '50%';
+    this.nodes.mixRatio2.value = 50;
+    this.nodes.ratioLabel2.innerText = '50%';
+    this.nodes.mixRatio3.value = 50;
+    this.nodes.ratioLabel3.innerText = '50%';
     this.nodes.lightness.value = 50;
     this.nodes.lightnessLabel.innerText = 'Luminosidad: --%';
     this.nodes.lightness.disabled = true;
